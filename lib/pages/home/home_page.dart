@@ -1,5 +1,7 @@
+import 'package:fe_info_guru/pages/home/profile/profile_page.dart';
 import 'package:fe_info_guru/pages/splash_page.dart';
 import 'package:fe_info_guru/providers/auth_provider.dart';
+import 'package:fe_info_guru/providers/profile_provider.dart';
 import 'package:fe_info_guru/share/theme.dart';
 import 'package:fe_info_guru/widgets/fitur_buttom.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   String? token = SpUtil.getString('token');
   int? angka = SpUtil.getInt('a');
   String? nip = SpUtil.getString('nip');
-  String? kelamin = SpUtil.getString('nip');
+  String? kelamin = SpUtil.getString('kelamin');
 
   // ignore: unused_field
   bool _isRefreshing = false;
@@ -27,6 +29,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    data();
     print("bisa");
   }
 
@@ -34,10 +37,14 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _isRefreshing = true;
     });
-    // data();
+    data();
     setState(() {
       _isRefreshing = false;
     });
+  }
+
+  data() async{
+    await Provider.of<ProfileProvider>(context, listen: false).getProfile();
   }
   
   @override
@@ -78,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    SpUtil.getString('nip')!,
+                    SpUtil.getString('nama')!,
                     style: blackTextStyle.copyWith(
                       fontSize: 18,
                       fontWeight: semibold
@@ -97,12 +104,12 @@ class _HomePageState extends State<HomePage> {
             ClipOval(
               child: GestureDetector(
                 onTap: (){
-                  // Navigator.push(
-                  //   context, 
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const ProfilePage(),
-                  //   )
-                  // );
+                  Navigator.push(
+                    context, 
+                    MaterialPageRoute(
+                      builder: (context) => const ProfilePage(),
+                    )
+                  );
                 },
                 child: SizedBox(
                   height: 50,
@@ -138,6 +145,13 @@ class _HomePageState extends State<HomePage> {
               shrinkWrap: true,
               children: [
                 FiturButtom(
+                  nama: 'Profile', 
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/profile');
+                  },
+                  img: kelamin == 'p' ? 'assets/ic_profile_cewek.gif' : 'assets/ic_profile_cowok.gif',
+                ),
+                FiturButtom(
                   nama: 'Logout', 
                   onPressed: handleLogOut, 
                   img: 'assets/ic_logout.png',
@@ -149,55 +163,6 @@ class _HomePageState extends State<HomePage> {
         ),
       );
     }  
-
-    Widget tailHadir(
-      String nama, 
-      String kelas, 
-      String jam, 
-      String kelamin
-    )
-    {
-      return Container(
-        margin: const EdgeInsets.only(left: 5),
-        decoration: BoxDecoration(
-          color: background4Color,
-          borderRadius: BorderRadius.circular(15)
-        ),
-        child: Column(
-          children: [
-      
-            Container(
-              width: 110,
-              height: 100,
-              margin: const EdgeInsets.only(top: 5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage(
-                    kelamin == 'p' ? 'assets/ic_profile_cewek.gif' : 'assets/ic_profile_cowok.gif'
-                  )
-                )
-              ),
-            ),
-      
-            Container(
-              margin: const EdgeInsets.only(left: 5, top: 10),
-              width: 110,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(nama, style: blackTextStyle.copyWith(fontWeight: medium),),
-                  Text("Kelas : $kelas", style: blackTextStyle.copyWith(fontWeight: medium),),
-                  Text("Jam : $jam", style: blackTextStyle.copyWith(fontWeight: medium),),
-                ],
-              )
-            )
-          ],
-        ),
-      );
-    }
-
     return Scaffold(
       backgroundColor: backgroundColor,
       body: RefreshIndicator(

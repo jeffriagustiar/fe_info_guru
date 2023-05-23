@@ -35,6 +35,8 @@ class AuthService{
       SpUtil.putInt('a', 1);
       // ignore: prefer_interpolation_to_compose_strings
       SpUtil.putString('token', 'Bearer ' + data['access_token']);
+      SpUtil.putString('nama', data['nama']);
+      SpUtil.putString('kelamin', data['kelamin']);
       SpUtil.putString('nip', user.login!);
       SpUtil.putInt('level', user.level ?? 1); 
       SpUtil.putString('kelola', user.kelola ?? "guru"); 
