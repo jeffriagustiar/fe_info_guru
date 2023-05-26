@@ -1,8 +1,12 @@
+import 'package:fe_info_guru/pages/home/buatLaporan/laporkan_page.dart';
+import 'package:fe_info_guru/pages/home/buatLaporan/menu_laporan_page.dart';
 import 'package:fe_info_guru/pages/home/home_page.dart';
+import 'package:fe_info_guru/pages/home/point/info_point_page.dart';
 import 'package:fe_info_guru/pages/home/profile/profile_page.dart';
 import 'package:fe_info_guru/pages/sign_in.dart';
 import 'package:fe_info_guru/pages/splash_page.dart';
 import 'package:fe_info_guru/providers/auth_provider.dart';
+import 'package:fe_info_guru/providers/catatan_provider.dart';
 import 'package:fe_info_guru/providers/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sp_util/sp_util.dart';
@@ -27,6 +31,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => ProfileProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => CatatanProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -37,6 +44,13 @@ class MyApp extends StatelessWidget {
           
           //? Profile
           '/profile' :(context) => const ProfilePage(),
+
+          //? Info Point Siswa
+          'info-point' :(context) => const InfoPointPage(),
+
+          //? Laporan Siswa
+          'menu-laporan' :(context) => const MenuLaporanPage(),
+          'laporkan' :(context) => const LaporkanPage(),
         },
       ),
     );

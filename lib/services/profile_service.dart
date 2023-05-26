@@ -24,7 +24,7 @@ class ProfileService{
     );
 
     // ignore: avoid_print
-    print(response.body);
+    // print(response.body);
     // print("bisa siswa");
 
     if (response.statusCode == 200) {

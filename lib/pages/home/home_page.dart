@@ -152,6 +152,20 @@ class _HomePageState extends State<HomePage> {
                   img: kelamin == 'p' ? 'assets/ic_profile_cewek.gif' : 'assets/ic_profile_cowok.gif',
                 ),
                 FiturButtom(
+                  nama: "Info Point", 
+                  onPressed: (){
+                    Navigator.pushNamed(context, 'info-point');
+                  }, 
+                  img: 'assets/ic_info2.png'
+                ),
+                FiturButtom(
+                  nama: "Lapor Siswa", 
+                  onPressed: (){
+                    Navigator.pushNamed(context, 'menu-laporan');
+                  }, 
+                  img: 'assets/ic_report_siswa.png'
+                ),
+                FiturButtom(
                   nama: 'Logout', 
                   onPressed: handleLogOut, 
                   img: 'assets/ic_logout.png',
