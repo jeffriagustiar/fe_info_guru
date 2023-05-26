@@ -24,7 +24,7 @@ class CatatanService{
     );
 
     // ignore: avoid_print
-    // print((response.body));
+    print((response.body));
     // ignore: avoid_print
     // print("bisa mapel nilai harian");
 
@@ -40,5 +40,24 @@ class CatatanService{
     } else {
       throw Exception("Gagal Ambil data info Catatan");
     }
+  }
+
+  Future<List<dynamic>> test()async{
+    var response = await http.get(Uri.parse(
+      "https://dev.farizdotid.com/api/daerahindonesia/provinsi"));
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+                
+                                      // setState(() {
+                                      //   _get = 
+                                      //   //siswa.siswaAll.map((sis) => sis.nama).toList(); 
+                                      //   // infoCatatanSiswa.infoCatatan.map((info) => info.namaKategori).toList();
+                                      //   data['provinsi'];
+                                      // });
+        // return data;
+        return data['provinsi'];
+      }else {
+        throw Exception('Failed to fetch data');
+      }
   }
 }
