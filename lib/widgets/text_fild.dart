@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 class TextFildSendiri extends StatelessWidget {
   // String nama;
   String hint;
+  // Function controller;
+  
   TextFildSendiri({
     // required this.nama, 
     required this.hint, 
+    // required this.controller,
     super.key
   });
 
@@ -45,7 +48,7 @@ class TextFildSendiri extends StatelessWidget {
                       Expanded(
                         child: TextFormField(
                           style: blackTextStyle,
-                          // controller: nipController,
+                          // controller: controller(),
                           decoration: InputDecoration.collapsed(
                             hintText: hint,
                             hintStyle: secondTextStyle,
