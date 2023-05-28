@@ -1,8 +1,11 @@
 import 'package:fe_info_guru/services/siswa_service.dart';
 import 'package:fe_info_guru/share/theme.dart';
 import 'package:fe_info_guru/widgets/appBar_buttom.dart';
+import 'package:fe_info_guru/widgets/text_buttom_sendiri.dart';
+import 'package:fe_info_guru/widgets/transpatant_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:sp_util/sp_util.dart';
 
 class LaporkanPage extends StatefulWidget {
   const LaporkanPage({super.key});
@@ -20,9 +23,34 @@ class _LaporkanPageState extends State<LaporkanPage> {
   String idKategori = '-';
   String idJenis = '-';
   String point = '0';
-
+  String? nip = SpUtil.getString('nip');
+  bool isLoading = false;
   
   TextEditingController descController = TextEditingController(text: '');
+
+  simpan() async {
+      setState(() {
+        isLoading = true;
+      });
+
+      if (nis == '-' || idJenis == '-' || descController.text.isEmpty) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return TransparentPopup(nis: nis, jenis: idJenis,desc: descController.text.isEmpty,);
+          },
+        ); 
+      } else {
+        print(idJenis);
+        print(nis);
+        print(nip);
+        print(descController.text);
+      }
+
+      setState(() {
+        isLoading = false;
+      });
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +175,7 @@ class _LaporkanPageState extends State<LaporkanPage> {
                             hintText: "Pilih Kategori",
                           ),
                                                 
-                          mode: Mode.MENU,
+                          mode: Mode.BOTTOM_SHEET,
                           showSearchBox: true,
                                                 
                           onFind: (text) async {
@@ -195,7 +223,7 @@ class _LaporkanPageState extends State<LaporkanPage> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 width: double.infinity,
-                height: 80,
+                height: 100,
                 decoration: BoxDecoration(
                   color: backgroundColor,
                   borderRadius: BorderRadius.circular(12)
@@ -217,7 +245,7 @@ class _LaporkanPageState extends State<LaporkanPage> {
                             hintText: "Pilih Jenis",
                           ),
                                                 
-                          mode: Mode.MENU,
+                          mode: Mode.BOTTOM_SHEET,
                           showSearchBox: true,
                                                 
                           onFind: (text) async {
@@ -261,6 +289,8 @@ class _LaporkanPageState extends State<LaporkanPage> {
             AppBarButtom(nama: 'Buat Laporan'),
 
             textForm("Form Untuk Melaporkan Pelanggaran Siswa"),
+
+            const SizedBox(height: 10,),
       
             Expanded(
               child: ListView(
@@ -337,6 +367,12 @@ class _LaporkanPageState extends State<LaporkanPage> {
                           ),
                         ),
 
+                        TextButtomSendiri(
+                          nama: "Simpan", 
+                          lebar: double.infinity, 
+                          onPressed: simpan
+                        )
+
                       ],
                     )
                   )
@@ -349,4 +385,5 @@ class _LaporkanPageState extends State<LaporkanPage> {
       ),
     );
   }
+  
 }
