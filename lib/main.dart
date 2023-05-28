@@ -8,6 +8,7 @@ import 'package:fe_info_guru/pages/splash_page.dart';
 import 'package:fe_info_guru/providers/auth_provider.dart';
 import 'package:fe_info_guru/providers/catatan_provider.dart';
 import 'package:fe_info_guru/providers/profile_provider.dart';
+import 'package:fe_info_guru/providers/siswa_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:provider/provider.dart';
@@ -34,6 +35,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => CatatanProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => SiswaProvider(),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -1,3 +1,4 @@
+import 'package:fe_info_guru/providers/siswa_provider.dart';
 import 'package:fe_info_guru/services/siswa_service.dart';
 import 'package:fe_info_guru/share/theme.dart';
 import 'package:fe_info_guru/widgets/appBar_buttom.dart';
@@ -5,7 +6,7 @@ import 'package:fe_info_guru/widgets/text_buttom_sendiri.dart';
 import 'package:fe_info_guru/widgets/transpatant_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:sp_util/sp_util.dart';
+import 'package:provider/provider.dart';
 
 class LaporkanPage extends StatefulWidget {
   const LaporkanPage({super.key});
@@ -23,12 +24,17 @@ class _LaporkanPageState extends State<LaporkanPage> {
   String idKategori = '-';
   String idJenis = '-';
   String point = '0';
-  String? nip = SpUtil.getString('nip');
   bool isLoading = false;
   
   TextEditingController descController = TextEditingController(text: '');
 
-  simpan() async {
+
+  @override
+  Widget build(BuildContext context) {
+
+    SiswaProvider siswaProvider = Provider.of<SiswaProvider>(context);
+
+    simpan() async {
       setState(() {
         isLoading = true;
       });
@@ -37,23 +43,42 @@ class _LaporkanPageState extends State<LaporkanPage> {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return TransparentPopup(nis: nis, jenis: idJenis,desc: descController.text.isEmpty,);
+            return TransparentPopup(info: 1, nis: nis, jenis: idJenis,desc: descController.text.isEmpty,);
           },
         ); 
       } else {
-        print(idJenis);
-        print(nis);
-        print(nip);
-        print(descController.text);
+
+        if (await siswaProvider.laporkanSiswa(nis, idJenis, descController.text, point)) {
+          // ignore: use_build_context_synchronously
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return TransparentPopup(info: 2, nis: nis, jenis: idJenis,desc: descController.text.isEmpty,);
+            },
+          ); 
+
+          //reset
+          descController.clear();
+          nama = '-';
+          nis = '-';
+          kelas = '-';
+          point = '0';
+        } else {
+          // ignore: use_build_context_synchronously
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: alertColor,
+              content: const Text(
+                'Gagal Buat Laporan!',
+                textAlign: TextAlign.center,
+              )));
+        }
+
       }
 
       setState(() {
         isLoading = false;
       });
     }
-
-  @override
-  Widget build(BuildContext context) {
 
     Widget textForm(String nama)
     {

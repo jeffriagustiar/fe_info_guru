@@ -6,8 +6,9 @@ class TransparentPopup extends StatefulWidget {
   String nis;
   String jenis;
   bool desc;
+  int info;
 
-  TransparentPopup({required this.nis, required this.jenis, required this.desc, super.key});
+  TransparentPopup({ required this.info, required this.nis, required this.jenis, required this.desc, super.key});
 
   @override
   _TransparentPopupState createState() => _TransparentPopupState();
@@ -51,6 +52,70 @@ class _TransparentPopupState extends State<TransparentPopup> {
     } else if(widget.desc == true){
       textTampil = 'Deskripsikan Laporan ';
     }
+
+    Widget infoLaporkanSiswa()
+    {
+      return Column(
+        children: [
+          Text(
+            'Jangan lupa mengisi dan memilih : ',
+            style: blackTextStyle.copyWith(
+              fontSize: 15,
+              fontWeight: semibold
+            ),
+          ),
+          const SizedBox(height: 10,),
+          Text(
+            textTampil,
+            style: blackTextStyle.copyWith(
+              fontSize: 15,
+              fontWeight: regular
+            ),
+          ),
+          const SizedBox(height: 16.0),
+          Container(
+            padding: const EdgeInsets.only(right: 30),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Tutup'),
+                ),
+              ),
+            ),
+        ],
+      );
+    }
+
+    Widget infoSuccessLaporkan()
+    {
+      return Column(
+        children: [
+          Text(
+            'Sukses Melaporkan',
+            style: blackTextStyle.copyWith(
+              fontSize: 15,
+              fontWeight: semibold
+            ),
+          ),
+          const SizedBox(height: 16.0),
+          Container(
+            padding: const EdgeInsets.only(right: 30),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Tutup'),
+                ),
+              ),
+            ),
+        ],
+      );
+    }
     
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -67,34 +132,7 @@ class _TransparentPopupState extends State<TransparentPopup> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                'Jangan lupa mengisi dan memilih : ',
-                style: blackTextStyle.copyWith(
-                  fontSize: 15,
-                  fontWeight: semibold
-                ),
-              ),
-              const SizedBox(height: 10,),
-              Text(
-                textTampil,
-                style: blackTextStyle.copyWith(
-                  fontSize: 15,
-                  fontWeight: regular
-                ),
-              ),
-              const SizedBox(height: 16.0),
-              Container(
-                padding: const EdgeInsets.only(right: 30),
-                child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('Tutup'),
-                  ),
-                ),
-              ),
+              widget.info == 1 ? infoLaporkanSiswa() : infoSuccessLaporkan()
             ],
           ),
         ),

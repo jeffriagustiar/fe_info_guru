@@ -90,5 +90,42 @@ class SiswaService{
     }
   }
 
+  //Laporkan Siswa
+  Future laporkanSiswa({
+    required String nis,
+    required String idCtt,
+    required String ket,
+    required String poin,
+  }) async {
+    var url = Uri.parse('$baseUrl/laporkanSiswa');
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization' : bearrerToken
+    };
+    var body = jsonEncode({
+      'id_ctt' : idCtt,
+      'nis' : nis,
+      'ket' : ket,
+      'point' : poin,
+    });
+
+    var response = await http.post(
+        url,
+        headers: headers,
+        body: body
+    );
+
+    // print((response.body));
+    // print((body));
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      print(data);
+      return data;
+    } else {
+      throw Exception('Gagal Ambil Buat Laporan');
+    }
+  }
+
 
 }
