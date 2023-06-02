@@ -1,18 +1,72 @@
+import 'package:fe_info_guru/providers/siswa_provider.dart';
+import 'package:fe_info_guru/services/siswa_service.dart';
 import 'package:fe_info_guru/share/theme.dart';
 import 'package:fe_info_guru/widgets/appBar_buttom.dart';
+import 'package:fe_info_guru/widgets/loading.dart';
+import 'package:fe_info_guru/widgets/no_result_info_gif.dart';
 import 'package:fe_info_guru/widgets/popUp_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sp_util/sp_util.dart';
 
-class ListLaporanPage extends StatelessWidget {
+class ListLaporanPage extends StatefulWidget {
   const ListLaporanPage({super.key});
+
+  @override
+  State<ListLaporanPage> createState() => _ListLaporanPageState();
+}
+
+class _ListLaporanPageState extends State<ListLaporanPage> {
+
+  // ignore: unused_field
+  bool _isRefreshing = false;
+
+  Future<void> getInit() async{
+    setState(() {
+      _isRefreshing = true;
+    });
+    data();
+    setState(() {
+      _isRefreshing = false;
+    });
+  }
+
+  data() async{
+    await Provider.of<SiswaProvider>(context, listen: false).getListLaporan();
+  }
+
 
   @override
   Widget build(BuildContext context) {
 
+    SiswaProvider laporan = Provider.of<SiswaProvider>(context);
+
+    acc(String rid) async {
+      if (await laporan.validasiLaporan(rid, '1')) {
+        getInit();
+      } else {
+        getInit();
+        // showDialog(
+        //   context: context,
+        //   builder: (BuildContext context) {
+        //     return Text("Gagal Validasi");
+        //   },
+        // ); 
+      }
+    }
+    
     String? kelola = SpUtil.getString('kelola');
     
-    Widget list(String nama, String kelas, String kategori, String jenis, String point, String status, String desc)
+    Widget list(
+      String nama, 
+      String kelas, 
+      String kategori, 
+      String jenis, 
+      String point, 
+      String status, 
+      String desc,
+      String id
+    )
     {
       return Column(
         children: [
@@ -29,6 +83,7 @@ class ListLaporanPage extends StatelessWidget {
                     point: point,
                     status: status,
                     desc : desc,
+                    rid: id,
                   );
                 }
               );
@@ -36,10 +91,10 @@ class ListLaporanPage extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(10),
               width: double.infinity,
-              height: 80,
+              height: 90,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                  color: Colors.red.shade100
+                  color: int.parse(point) < 0 ? Colors.red.shade100 : Colors.green.shade100
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,18 +152,18 @@ class ListLaporanPage extends StatelessWidget {
                               style: blackTextStyle.copyWith(
                                 fontSize: 15,
                                 fontWeight: semibold,
-                                color: int.parse(status) == 1 ? Colors.green.shade400 : Colors.black
+                                color: Colors.black
                               ),
                             )
                           ],
                         ),
                   
-                        kelola == 'guru' ?
+                        kelola == 'BK' ?
                           TextButton(
-                            onLongPress: () {
-                              // print("object");
-                            },
-                            onPressed: (){}, 
+                            onLongPress: () {},
+                            onPressed: (){
+                              acc(id);
+                            }, 
                             child: const Icon(Icons.check,size: 30,color: Colors.black,)
                           )
                         : 
@@ -125,22 +180,41 @@ class ListLaporanPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: background4Color,
       body: SafeArea(
-        child: Column(
-          children: [
-            AppBarButtom(nama: "List Laporan"),
-
-            Expanded(
-              child: ListView(
-                children: [
-
-                  list("jhon abc","X ABC","sedang","Cabut","-10",'1',"ejkehdjkfsd sdkfsdjhfjsdhfjsd"),
-                  list("jhon cba","XI ABBC","berat","Merokok","-5",'0',"jksdhjsf jfdshfhghkeew weuyiuwef"),
-                  list("jhon aaa","XII ABCC","sedang","Aplpa Aplpa Aplpa Aplpa Aplpa Aplpa Aplpa Aplpa","-8",'0',"dkjwfhjw weiuioweur ewiyriuwer"),
-                  
-                ],
-              ),
-            )
-          ],
+        child: RefreshIndicator(
+          onRefresh: getInit,
+          child: Column(
+            children: [
+              AppBarButtom(nama: "List Laporan"),
+        
+              Expanded(
+                child: FutureBuilder(
+                  future: data(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Loading();
+                    } else if(laporan.listLaporan.isEmpty){
+                      return NoResultInfoGif(lebar: double.infinity);
+                    } else {
+                      return ListView(
+                        children: laporan.listLaporan.map((lapor) => 
+                          list(
+                            lapor.nama.toString(),
+                            lapor.kelas.toString(), 
+                            lapor.kategori.toString(), 
+                            lapor.jenis.toString(), 
+                            lapor.point.toString(), 
+                            lapor.acc.toString(), 
+                            lapor.ket.toString(),
+                            lapor.replid.toString()
+                          )
+                        ).toList(),
+                      );
+                    }
+                  }
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

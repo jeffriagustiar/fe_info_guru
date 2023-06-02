@@ -3,7 +3,7 @@ import 'package:fe_info_guru/share/theme.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class PopUpDetail extends StatelessWidget {
+class PopUpDetail extends StatefulWidget {
   String namaS;
   String kelas;
   String kategori;
@@ -11,6 +11,7 @@ class PopUpDetail extends StatelessWidget {
   String point;
   String status;
   String desc;
+  String rid;
 
   PopUpDetail({
     required this.namaS,
@@ -20,8 +21,23 @@ class PopUpDetail extends StatelessWidget {
     required this.point, 
     required this.status, 
     required this.desc,
+    required this.rid,
     super.key
   });
+
+  @override
+  State<PopUpDetail> createState() => _PopUpDetailState();
+}
+
+class _PopUpDetailState extends State<PopUpDetail> {
+
+  acc(){
+    print(widget.rid);
+  }
+
+  batal(){
+    print(widget.rid);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,21 +87,21 @@ class PopUpDetail extends StatelessWidget {
               Expanded(
                 child: ListView(
                   children: [
-                    rowText("Nama : ", namaS, 15),
+                    rowText("Nama : ", widget.namaS, 15),
                     const SizedBox(height: 5,),
-                    rowText("Kelas : ", kelas, 15),
+                    rowText("Kelas : ", widget.kelas, 15),
                     const SizedBox(height: 5,),
-                    rowText("Kategori : ", kategori, 15),
+                    rowText("Kategori : ", widget.kategori, 15),
                     const SizedBox(height: 15,),
                     rowText("Jenis : ", "", 15),
-                    textSendiri(jenis, 15),
+                    textSendiri(widget.jenis, 15),
                     const SizedBox(height: 15,),
-                    rowText("Point : ", point, 15),
+                    rowText("Point : ", widget.point, 15),
                     const SizedBox(height: 5,),
-                    rowText("Status : ", int.parse(status) == 1 ? "Acc" : "Review", 15),
+                    rowText("Status : ", int.parse(widget.status) == 1 ? "Acc" : "Review", 15),
                     const SizedBox(height: 15,),
                     rowText("Deskripsi : ", "", 15),
-                    textSendiri(desc, 15),
+                    textSendiri(widget.desc, 15),
                   ],
                 ),
               ),
@@ -102,7 +118,7 @@ class PopUpDetail extends StatelessWidget {
                         alignment: Alignment.bottomRight,
                         child: ElevatedButton(
                           onPressed: () {
-                            print("Acc");
+                            acc();
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green, // Ubah menjadi warna hijau yang diinginkan
@@ -119,7 +135,7 @@ class PopUpDetail extends StatelessWidget {
                         alignment: Alignment.bottomRight,
                         child: ElevatedButton(
                           onPressed: () {
-                            print("Batalkan");
+                            batal();
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.yellow.shade800, // Ubah menjadi warna hijau yang diinginkan

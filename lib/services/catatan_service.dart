@@ -24,7 +24,7 @@ class CatatanService{
     );
 
     // ignore: avoid_print
-    print((response.body));
+    // print((response.body));
     // ignore: avoid_print
     // print("bisa mapel nilai harian");
 

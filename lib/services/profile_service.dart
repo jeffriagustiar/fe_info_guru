@@ -25,10 +25,11 @@ class ProfileService{
 
     // ignore: avoid_print
     // print(response.body);
-    // print("bisa siswa");
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body)['data'];
+      final data2 = jsonDecode(response.body);
+      SpUtil.putString('kelola',data2['kelola']);
       final profile = ProfileModel.fromJson(data);
 
       return profile;
