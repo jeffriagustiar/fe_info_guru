@@ -120,6 +120,7 @@ class _InfoPointPageState extends State<InfoPointPage> {
           children: [
             AppBarButtom(nama: 'Informasi Point'),
 
+            // ignore: sized_box_for_whitespace
             Container(
               height: 80,
               child: Expanded(

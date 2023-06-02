@@ -1,4 +1,5 @@
 import 'package:fe_info_guru/pages/home/buatLaporan/laporkan_page.dart';
+import 'package:fe_info_guru/pages/home/buatLaporan/list_laporan_page.dart';
 import 'package:fe_info_guru/pages/home/buatLaporan/menu_laporan_page.dart';
 import 'package:fe_info_guru/pages/home/home_page.dart';
 import 'package:fe_info_guru/pages/home/point/info_point_page.dart';
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
           //? Laporan Siswa
           'menu-laporan' :(context) => const MenuLaporanPage(),
           'laporkan' :(context) => const LaporkanPage(),
+          'list-laporan' :(context) => const ListLaporanPage(),
         },
       ),
     );

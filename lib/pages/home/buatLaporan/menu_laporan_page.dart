@@ -79,16 +79,10 @@ class MenuLaporanPage extends StatelessWidget {
                         FiturButtom(
                           nama: 'List Laporan', 
                           onPressed: () {
-                            // Navigator.pushNamed(
-                            //   context, 
-                            //   '/nilai-rapor-umum',
-                            //   arguments: {
-                            //     'nama' : 'Pelajaran Umum',
-                            //     'jenis' : 'KMU',
-                            //     'tipe' : 'ASSOF',
-                            //     'pancasila' : 0
-                            //   }
-                            // );
+                            Navigator.pushNamed(
+                              context, 
+                              'list-laporan'
+                            );
                           },
                           img: 'assets/ic_list_lapor.png',
                         ),

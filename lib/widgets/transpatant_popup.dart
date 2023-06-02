@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:fe_info_guru/share/theme.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class TransparentPopup extends StatefulWidget {
   String nis;
   String jenis;
@@ -11,6 +12,7 @@ class TransparentPopup extends StatefulWidget {
   TransparentPopup({ required this.info, required this.nis, required this.jenis, required this.desc, super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _TransparentPopupState createState() => _TransparentPopupState();
 }
 

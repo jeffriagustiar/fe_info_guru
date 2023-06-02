@@ -1,6 +1,7 @@
 import 'package:fe_info_guru/share/theme.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class TextFildSendiri extends StatelessWidget {
   // String nama;
   String hint;
