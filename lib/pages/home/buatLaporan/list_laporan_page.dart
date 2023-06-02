@@ -65,7 +65,8 @@ class _ListLaporanPageState extends State<ListLaporanPage> {
       String point, 
       String status, 
       String desc,
-      String id
+      String id,
+      String nip
     )
     {
       return Column(
@@ -84,6 +85,7 @@ class _ListLaporanPageState extends State<ListLaporanPage> {
                     status: status,
                     desc : desc,
                     rid: id,
+                    nip: nip,
                   );
                 }
               );
@@ -205,7 +207,8 @@ class _ListLaporanPageState extends State<ListLaporanPage> {
                             lapor.point.toString(), 
                             lapor.acc.toString(), 
                             lapor.ket.toString(),
-                            lapor.replid.toString()
+                            lapor.replid.toString(),
+                            lapor.nip.toString()
                           )
                         ).toList(),
                       );

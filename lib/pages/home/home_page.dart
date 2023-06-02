@@ -125,8 +125,9 @@ class _HomePageState extends State<HomePage> {
       );
     }
 
-    Widget fitur(){
+    Widget fiturGeneral(){
       return Container(
+        padding: const EdgeInsets.only(top: 15,bottom: 15),
         margin: const EdgeInsets.all(15),
         decoration: BoxDecoration(
           color: background4Color,
@@ -134,6 +135,14 @@ class _HomePageState extends State<HomePage> {
         ),
         child: Column(
           children: [
+
+            Text(
+              "General",
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+                fontWeight: semibold
+              ),
+            ),
 
             GridView(
               padding: const EdgeInsets.only(top: 10,bottom: 10 ),
@@ -177,6 +186,58 @@ class _HomePageState extends State<HomePage> {
         ),
       );
     }  
+
+    Widget fiturBk(){
+      return Container(
+        padding: const EdgeInsets.only(top: 15,bottom: 15),
+        margin: const EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          color: background4Color,
+          borderRadius: BorderRadius.circular(15)
+        ),
+        child: Column(
+          children: [
+
+            Text(
+              "Bimbingan Konseling",
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+                fontWeight: semibold
+              ),
+            ),
+
+            GridView(
+              padding: const EdgeInsets.only(top: 10,bottom: 10 ),
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4,
+                childAspectRatio: 0.7,
+              ),
+              shrinkWrap: true,
+              children: [
+                FiturButtom(
+                  nama: 'Laporkan', 
+                  onPressed: () {
+                    Navigator.pushNamed(context, 'laporkan');
+                  },
+                  img: 'assets/ic_add_report.png',
+                ),
+                FiturButtom(
+                  nama: 'List Laporan', 
+                  onPressed: () {
+                    Navigator.pushNamed(context, 'list-laporan');
+                  },
+                  img: 'assets/ic_list_lapor.png',
+                ),
+              ],
+            )
+
+          ],
+        ),
+      );
+    }  
+
+
     return Scaffold(
       backgroundColor: backgroundColor,
       body: RefreshIndicator(
@@ -184,7 +245,8 @@ class _HomePageState extends State<HomePage> {
         child: ListView(
           children: [
             header(),
-            fitur(),
+            fiturGeneral(),
+            fiturBk()
           ],
         ),
       ),

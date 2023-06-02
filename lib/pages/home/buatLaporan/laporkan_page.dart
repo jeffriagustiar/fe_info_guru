@@ -7,6 +7,7 @@ import 'package:fe_info_guru/widgets/transpatant_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:provider/provider.dart';
+import 'package:sp_util/sp_util.dart';
 
 class LaporkanPage extends StatefulWidget {
   const LaporkanPage({super.key});
@@ -24,6 +25,8 @@ class _LaporkanPageState extends State<LaporkanPage> {
   String idKategori = '-';
   String idJenis = '-';
   String point = '0';
+  String kategori = 'pelanggaran';
+  String? kelola = SpUtil.getString('kelola');
   bool isLoading = false;
   
   TextEditingController descController = TextEditingController(text: '');
@@ -204,7 +207,7 @@ class _LaporkanPageState extends State<LaporkanPage> {
                           showSearchBox: true,
                                                 
                           onFind: (text) async {
-                            List<dynamic> result = await SiswaService().getAllKategori('pelanggaran');
+                            List<dynamic> result = await SiswaService().getAllKategori(kategori);
                             setState(() {
                               _get = 
                               result;
@@ -305,6 +308,61 @@ class _LaporkanPageState extends State<LaporkanPage> {
     );
   }
 
+  Widget pilihCatatan()
+  {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: backgroundColor
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TextButton(
+            style: TextButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15)
+              )
+            ),
+            onPressed: (){
+              setState(() {
+                kategori = 'pelanggaran';
+              });
+            }, 
+            child: Text("Pelanggaran",style: blackTextStyle)
+          ),
+          TextButton(
+            style: TextButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15)
+              )
+            ),
+            onPressed: (){
+              setState(() {
+                kategori = 'hukuman';
+              });
+            }, 
+            child: Text("Hukuman",style: blackTextStyle)
+          ),
+          TextButton(
+            style: TextButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15)
+              )
+            ),
+            onPressed: (){
+              setState(() {
+                kategori = 'prestasi';
+              });
+            }, 
+            child: Text("Prestasi",style: blackTextStyle)
+          ),
+        ],
+      )
+    );
+  }
+
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SafeArea(
@@ -330,6 +388,8 @@ class _LaporkanPageState extends State<LaporkanPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+
+                        kelola == 'BK' ? pilihCatatan() : const SizedBox(height: 0,),
 
                         pilihSiswa(),
 

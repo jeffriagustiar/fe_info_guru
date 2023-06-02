@@ -1,6 +1,9 @@
 // ignore: file_names
+import 'package:fe_info_guru/pages/home/buatLaporan/list_laporan_page.dart';
+import 'package:fe_info_guru/providers/siswa_provider.dart';
 import 'package:fe_info_guru/share/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class PopUpDetail extends StatefulWidget {
@@ -12,6 +15,7 @@ class PopUpDetail extends StatefulWidget {
   String status;
   String desc;
   String rid;
+  String nip;
 
   PopUpDetail({
     required this.namaS,
@@ -22,6 +26,7 @@ class PopUpDetail extends StatefulWidget {
     required this.status, 
     required this.desc,
     required this.rid,
+    required this.nip,
     super.key
   });
 
@@ -31,16 +36,32 @@ class PopUpDetail extends StatefulWidget {
 
 class _PopUpDetailState extends State<PopUpDetail> {
 
-  acc(){
-    print(widget.rid);
-  }
-
-  batal(){
-    print(widget.rid);
-  }
-
   @override
   Widget build(BuildContext context) {
+
+    SiswaProvider laporan = Provider.of<SiswaProvider>(context);
+
+    acc(String acc) async{
+      if (await laporan.validasiLaporan(widget.rid, acc)) {
+        // ignore: use_build_context_synchronously
+        Navigator.pushAndRemoveUntil(
+            context, 
+            MaterialPageRoute(
+              builder: (context) => const ListLaporanPage(),
+            ), 
+            ModalRoute.withName('list-laporan')
+          );
+      } else {
+        // ignore: use_build_context_synchronously
+        Navigator.pushAndRemoveUntil(
+            context, 
+            MaterialPageRoute(
+              builder: (context) => const ListLaporanPage(),
+            ), 
+            ModalRoute.withName('list-laporan')
+          );
+      }
+    }
 
     Widget textSendiri(String nama, double ukuran)
     {
@@ -87,6 +108,8 @@ class _PopUpDetailState extends State<PopUpDetail> {
               Expanded(
                 child: ListView(
                   children: [
+                    rowText("Pembuat : ", widget.nip, 15),
+                    const SizedBox(height: 25,),
                     rowText("Nama : ", widget.namaS, 15),
                     const SizedBox(height: 5,),
                     rowText("Kelas : ", widget.kelas, 15),
@@ -118,7 +141,7 @@ class _PopUpDetailState extends State<PopUpDetail> {
                         alignment: Alignment.bottomRight,
                         child: ElevatedButton(
                           onPressed: () {
-                            acc();
+                            acc('1');
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green, // Ubah menjadi warna hijau yang diinginkan
@@ -135,7 +158,7 @@ class _PopUpDetailState extends State<PopUpDetail> {
                         alignment: Alignment.bottomRight,
                         child: ElevatedButton(
                           onPressed: () {
-                            batal();
+                            acc('0');
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.yellow.shade800, // Ubah menjadi warna hijau yang diinginkan
