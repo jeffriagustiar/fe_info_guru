@@ -1,7 +1,10 @@
+import 'package:fe_info_guru/providers/siswa_provider.dart';
 import 'package:fe_info_guru/share/theme.dart';
 import 'package:fe_info_guru/widgets/appBar_buttom.dart';
+import 'package:fe_info_guru/widgets/popup_success.dart';
 import 'package:fe_info_guru/widgets/text_buttom_sendiri.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AddKategoriPage extends StatefulWidget {
   const AddKategoriPage({super.key});
@@ -18,14 +21,42 @@ class _AddKategoriPageState extends State<AddKategoriPage> {
   @override
   Widget build(BuildContext context) {
 
+    SiswaProvider kategoriAdd = Provider.of<SiswaProvider>(context);
+
     final arg = ModalRoute.of(context)!.settings.arguments as Map;
 
     String nama = arg['nama'];
     String jenis = arg['jenis'];
 
-    simpan(){
-      namaController.clear();
-      descController.clear();
+    simpan() async{
+
+      if (namaController.text.isEmpty) {
+        // showDialog(
+        //   context: context, 
+        //   builder: (BuildContext context) {
+        //     return Text("Nama Kategori Tidak Boleh Kosong",style: blackTextStyle.copyWith(fontWeight: semibold,fontSize: 18),);
+        //   }
+        // );
+      } else {
+        if (await kategoriAdd.addKategori(namaController.text, jenis, descController.text)) {
+          
+        // ignore: use_build_context_synchronously
+        showDialog(
+          context: context, 
+          builder: (BuildContext context) {
+            return const PopUpSuccess();
+          }
+        );
+        
+        namaController.clear();
+        descController.clear();
+
+        } else {
+          
+        }
+      }
+
+
     }
 
     return Scaffold(

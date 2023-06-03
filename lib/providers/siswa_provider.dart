@@ -80,5 +80,16 @@ class SiswaProvider with ChangeNotifier{
     }
   }
 
+  //Add Kategori
+  Future<bool> addKategori(String nama, String kategori, String ket) async {
+    try {
+      await SiswaService().addKategori(nama: nama, kategori: kategori, ket: ket);
+      return true;
+    } catch (e) {
+      // print(e);
+      return false;
+    }
+  }
+
 
 }

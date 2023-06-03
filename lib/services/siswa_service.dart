@@ -223,5 +223,40 @@ class SiswaService{
     }
   }
 
+  //Add Kategori
+  Future addKategori({
+    required String nama,
+    required String kategori,
+    required String ket,
+  }) async {
+    var url = Uri.parse('$baseUrl/addKategori');
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization' : bearrerToken
+    };
+    var body = jsonEncode({
+      'nama' : nama,
+      'kategori' : kategori,
+      'ket' : ket,
+    });
+
+    var response = await http.post(
+        url,
+        headers: headers,
+        body: body
+    );
+
+    // print((response.body));
+    // print((body));
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      // print(data);
+      return data;
+    } else {
+      throw Exception('Gagal Add Kategori');
+    }
+  }
+
 
 }

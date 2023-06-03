@@ -15,9 +15,13 @@ class ListKategoriPage extends StatefulWidget {
 
 class _ListKategoriPageState extends State<ListKategoriPage> {
 
+  bool _isRefreshing = false;
+
+  
   data(String kategori) async{
     await Provider.of<SiswaProvider>(context, listen: false).getListKategori(kategori);
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +32,15 @@ class _ListKategoriPageState extends State<ListKategoriPage> {
 
     String nama = arg['nama'];
     String jenis = arg['jenis'];
+
+    Future<void> getInit() async{
+      setState(() {
+        _isRefreshing = true;
+      });
+      setState(() {
+        _isRefreshing = false;
+      });
+    }
 
     Widget list(String nama, String ket)
     {
@@ -107,33 +120,36 @@ class _ListKategoriPageState extends State<ListKategoriPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SafeArea(
-        child: Column(
-          children: [
-            AppBarButtom(nama: "List Kategori $nama"),
-
-            Expanded(
-              child: FutureBuilder(
-                future: data(jenis),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Loading();
-                  } else if(kategori.listKategori.isEmpty){
-                    return NoResultInfoGif(lebar: double.infinity);
-                  } else {
-                    return ListView(
-                    children: kategori.listKategori.map((kate) => 
-                      list(
-                        kate.namaKategori.toString(),
-                        kate.ket.toString()
-                      )
-                    ).toList(),
-                  );
+        child: RefreshIndicator(
+          onRefresh: getInit,
+          child: Column(
+            children: [
+              AppBarButtom(nama: "List Kategori $nama"),
+        
+              Expanded(
+                child: FutureBuilder(
+                  future: data(jenis),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Loading();
+                    } else if(kategori.listKategori.isEmpty){
+                      return NoResultInfoGif(lebar: double.infinity);
+                    } else {
+                      return ListView(
+                      children: kategori.listKategori.map((kate) => 
+                        list(
+                          kate.namaKategori.toString(),
+                          kate.ket.toString()
+                        )
+                      ).toList(),
+                    );
+                    }
+                    
                   }
-                  
-                }
+                )
               )
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );
