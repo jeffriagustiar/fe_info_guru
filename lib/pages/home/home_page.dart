@@ -216,6 +216,20 @@ class _HomePageState extends State<HomePage> {
               shrinkWrap: true,
               children: [
                 FiturButtom(
+                  nama: 'Kategori', 
+                  onPressed: () {
+                    Navigator.pushNamed(context, 'menu-kategori');
+                  },
+                  img: 'assets/ic_list.png',
+                ),
+                FiturButtom(
+                  nama: 'Jenis', 
+                  onPressed: () {
+                    Navigator.pushNamed(context, 'laporkan');
+                  },
+                  img: 'assets/ic_list.png',
+                ),
+                FiturButtom(
                   nama: 'Laporkan', 
                   onPressed: () {
                     Navigator.pushNamed(context, 'laporkan');

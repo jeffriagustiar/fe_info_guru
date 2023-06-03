@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fe_info_guru/models/catatan/kategori_model2.dart';
 import 'package:fe_info_guru/models/catatan/list_catatan_model.dart';
 import 'package:fe_info_guru/share/theme.dart';
 import 'package:http/http.dart' as http;
@@ -188,6 +189,37 @@ class SiswaService{
       return data;
     } else {
       throw Exception('Gagal Validasi Laporan');
+    }
+  }
+
+  //Ambil List Kategori untuk List
+  Future<List<KategoriModel2>> getListKategori(String jenis) async{
+    var url = Uri.parse('$baseUrl/dataSemuaKategori?jenis=$jenis');
+
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization' : bearrerToken
+    };
+
+    var response = await http.get(
+      url,
+      headers: headers
+    );
+
+    // ignore: avoid_print
+    // print((response.body));
+
+    if (response.statusCode == 200) {
+      List  data = jsonDecode(response.body)['data'];
+      // ignore: non_constant_identifier_names
+      List<KategoriModel2> listKategori = [];
+
+      for (var item in data) {
+        listKategori.add(KategoriModel2.fromJson(item));
+      }
+      return listKategori;
+    } else {
+      throw Exception("Gagal Ambil Data List Kategori");
     }
   }
 

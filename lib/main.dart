@@ -1,6 +1,9 @@
 import 'package:fe_info_guru/pages/home/buatLaporan/laporkan_page.dart';
 import 'package:fe_info_guru/pages/home/buatLaporan/list_laporan_page.dart';
 import 'package:fe_info_guru/pages/home/buatLaporan/menu_laporan_page.dart';
+import 'package:fe_info_guru/pages/home/catatan/kategori/add_kategori_page.dart';
+import 'package:fe_info_guru/pages/home/catatan/kategori/list_kategori_page.dart';
+import 'package:fe_info_guru/pages/home/catatan/kategori/menu_kategori_page.dart';
 import 'package:fe_info_guru/pages/home/home_page.dart';
 import 'package:fe_info_guru/pages/home/point/info_point_page.dart';
 import 'package:fe_info_guru/pages/home/profile/profile_page.dart';
@@ -57,6 +60,11 @@ class MyApp extends StatelessWidget {
           'menu-laporan' :(context) => const MenuLaporanPage(),
           'laporkan' :(context) => const LaporkanPage(),
           'list-laporan' :(context) => const ListLaporanPage(),
+
+          //? Kategori
+          'menu-kategori' :(context) => const MenuKategoriPage(),
+          'list-kategori' :(context) => const ListKategoriPage(),
+          'add-kategori' :(context) => const AddKategoriPage(),
         },
       ),
     );

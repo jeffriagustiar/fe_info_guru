@@ -1,3 +1,4 @@
+import 'package:fe_info_guru/models/catatan/kategori_model2.dart';
 import 'package:fe_info_guru/models/catatan/list_catatan_model.dart';
 import 'package:fe_info_guru/services/siswa_service.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,16 @@ class SiswaProvider with ChangeNotifier{
 
   set listLaporan(List<ListCatatanModel> listLaporan){
     _listLaporan = listLaporan;
+    notifyListeners();
+  }
+
+
+  List<KategoriModel2> _listKategori = [];
+
+  List<KategoriModel2> get listKategori => _listKategori;
+
+  set listKategori(List<KategoriModel2> listKategori){
+    _listKategori = listKategori;
     notifyListeners();
   }
 
@@ -53,6 +64,19 @@ class SiswaProvider with ChangeNotifier{
     } catch (e) {
       // print(e);
       return false;
+    }
+  }
+
+  //Ambil List Kategori untuk List
+  Future<void> getListKategori(String jenis) async{
+    _listKategori = [];
+    try {
+      List<KategoriModel2> listKategori = await SiswaService().getListKategori(jenis);
+      _listKategori = listKategori; 
+      
+    } catch (e) {
+      // ignore: avoid_print
+      print(e); 
     }
   }
 
