@@ -21,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   int? angka = SpUtil.getInt('a');
   String? nip = SpUtil.getString('nip');
   String? kelamin = SpUtil.getString('kelamin');
+  String? kelola = SpUtil.getString('kelola');
 
   // ignore: unused_field
   bool _isRefreshing = false;
@@ -260,7 +261,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             header(),
             fiturGeneral(),
-            fiturBk()
+            kelola == 'BK' ? fiturBk() : const SizedBox(height: 0,)
           ],
         ),
       ),

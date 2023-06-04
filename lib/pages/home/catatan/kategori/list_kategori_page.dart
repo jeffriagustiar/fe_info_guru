@@ -1,3 +1,5 @@
+import 'package:fe_info_guru/models/catatan/kategori_model2.dart';
+import 'package:fe_info_guru/pages/home/catatan/kategori/edit_kategori_page.dart';
 import 'package:fe_info_guru/providers/siswa_provider.dart';
 import 'package:fe_info_guru/share/theme.dart';
 import 'package:fe_info_guru/widgets/appBar_buttom.dart';
@@ -30,7 +32,7 @@ class _ListKategoriPageState extends State<ListKategoriPage> {
 
     final arg = ModalRoute.of(context)!.settings.arguments as Map;
 
-    String nama = arg['nama'];
+    String namaK = arg['nama'];
     String jenis = arg['jenis'];
 
     Future<void> getInit() async{
@@ -42,7 +44,7 @@ class _ListKategoriPageState extends State<ListKategoriPage> {
       });
     }
 
-    Widget list(String nama, String ket)
+    Widget list(String nama, String ket, KategoriModel2 kategori)
     {
       return Container(
         margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
@@ -81,7 +83,12 @@ class _ListKategoriPageState extends State<ListKategoriPage> {
               underline: Container(),
               onChanged: (String? value) {
                 if (value == "edit") {
-                  print("edit");
+                  Navigator.push(
+                    context, 
+                    MaterialPageRoute(
+                      builder: (context) => EditKategoriPage(kategori,namaK: namaK,jenis: jenis),
+                    )
+                  );
                 } 
                 // else if (value == "hapus") {
                 //   print("hapus");
@@ -110,7 +117,7 @@ class _ListKategoriPageState extends State<ListKategoriPage> {
             context, 
             'add-kategori',
             arguments: {
-              'nama' : nama,
+              'nama' : namaK,
               'jenis' : jenis,
             }
           );
@@ -124,7 +131,7 @@ class _ListKategoriPageState extends State<ListKategoriPage> {
           onRefresh: getInit,
           child: Column(
             children: [
-              AppBarButtom(nama: "List Kategori $nama"),
+              AppBarButtom(nama: "List Kategori $namaK"),
         
               Expanded(
                 child: FutureBuilder(
@@ -139,7 +146,8 @@ class _ListKategoriPageState extends State<ListKategoriPage> {
                       children: kategori.listKategori.map((kate) => 
                         list(
                           kate.namaKategori.toString(),
-                          kate.ket.toString()
+                          kate.ket.toString(),
+                          kate
                         )
                       ).toList(),
                     );

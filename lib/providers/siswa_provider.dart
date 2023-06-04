@@ -91,5 +91,16 @@ class SiswaProvider with ChangeNotifier{
     }
   }
 
+  //Edit Kategori
+  Future<bool> editKategori(String id, String nama, String ket) async {
+    try {
+      await SiswaService().editKategori(id: id, nama: nama, ket: ket);
+      return true;
+    } catch (e) {
+      // print(e);
+      return false;
+    }
+  }
+
 
 }
